@@ -129,20 +129,28 @@ public class DBAdapter {
     {
         return db.delete(DATABASE_TABLE_RADNOMJESTO, KEY_ROWID_MJESTA + "=" + rowId, null) > 0;
     }
-/*
-    //---retrieves all the contacts---
-    public Cursor getAllContacts()
+
+    //---vraca sve zaposlenike---
+    public Cursor getSviZaposlenici()
     {
-        return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_EMAIL}, null, null, null, null, null);
+        return db.query(DATABASE_TABLE_ZAPOSLENIK, new String[] {KEY_ROWID, KEY_IME,
+                KEY_MAIL, KEY_PLACA}, null, null, null, null, null);
     }
 
-    //---retrieves a particular contact---
-    public Cursor getContact(long rowId) throws SQLException
+    //---vraca sva radna mjesta---
+    public Cursor getSvaRadnaMjesta()
+    {
+        return db.query(DATABASE_TABLE_RADNOMJESTO, new String[] {KEY_ROWID_MJESTA, KEY_NIVO_ODGOVORNOSTI,
+                KEY_MINIMALNA_PLACA}, null, null, null, null, null);
+    }
+
+
+    //---vraca odredjenog zaposlenika---
+    public Cursor getZaposlenik(long rowId) throws SQLException
     {
         Cursor mCursor =
-                db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                                KEY_NAME, KEY_EMAIL}, KEY_ROWID + "=" + rowId, null,
+                db.query(true, DATABASE_TABLE_ZAPOSLENIK, new String[] {KEY_ROWID,
+                                KEY_IME, KEY_MAIL, KEY_PLACA}, KEY_ROWID + "=" + rowId, null,
                         null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -150,14 +158,36 @@ public class DBAdapter {
         return mCursor;
     }
 
-    //---updates a contact---
-    public boolean updateContact(long rowId, String name, String email)
+    //---vraca odredjeno radno mjesto---
+    public Cursor getRadnoMjesto(long rowId_mjesta) throws SQLException
     {
-        ContentValues args = new ContentValues();
-        args.put(KEY_NAME, name);
-        args.put(KEY_EMAIL, email);
-        return db.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+        Cursor mCursor =
+                db.query(true, DATABASE_TABLE_RADNOMJESTO, new String[] {KEY_ROWID_MJESTA,
+                                KEY_NIVO_ODGOVORNOSTI, KEY_MINIMALNA_PLACA}, KEY_ROWID_MJESTA + "=" + rowId_mjesta, null,
+                        null, null, null, null);
+        if (mCursor != null) {
+            mCursor.moveToFirst();
+        }
+        return mCursor;
     }
 
-*/
+    //---azuriramo (updateamo) zaposlenika---
+    public boolean updateZaposlenik(long rowId, String ime, String mail, Integer placa)
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_IME, ime);
+        args.put(KEY_MAIL, mail);
+        args.put(KEY_PLACA, placa);
+        return db.update(DATABASE_TABLE_ZAPOSLENIK, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    //---azuriramo (updateamo) radno mjesto---
+    public boolean updateRadnoMjesto(long rowId_mjesta, Integer nivo_odgovornosti, Integer minimalna_placa)
+    {
+        ContentValues args = new ContentValues();
+        args.put(KEY_NIVO_ODGOVORNOSTI, nivo_odgovornosti);
+        args.put(KEY_MINIMALNA_PLACA, minimalna_placa);
+        return db.update(DATABASE_TABLE_RADNOMJESTO, args, KEY_ROWID_MJESTA + "=" + rowId_mjesta, null) > 0;
+    }
+
 }
