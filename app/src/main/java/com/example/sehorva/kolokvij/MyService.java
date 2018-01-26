@@ -45,7 +45,7 @@ public class MyService extends Service {
         // ovaj servis radi dok ga se ne zaustavi eksplicitno
         // dakle vraca sticky
 
-        Toast.makeText(this, "Service Started", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
 
         //new DownloadTextTask().execute("http://humanstxt.org/humans.txt");
         new DownloadTextTask().execute("https://web.math.pmf.unizg.hr/~karaga/android/images_2/predefiniranekonstante.txt");
@@ -86,7 +86,7 @@ public class MyService extends Service {
 
         }
         Log.d("MyService", "Service zaustavljen");
-        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
     }
 
     private InputStream OpenHttpConnection(String urlString)
@@ -159,7 +159,7 @@ public class MyService extends Service {
         @Override
         protected void onPostExecute(String result) {
             //Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG).show();
-            Toast.makeText(getBaseContext(), "Tekst downloadan.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getBaseContext(), "Tekst downloadan.", Toast.LENGTH_SHORT).show();
             tekstSkinut = true;
         }
     }

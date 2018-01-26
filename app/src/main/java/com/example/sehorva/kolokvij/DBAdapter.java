@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.io.Console;
+
 /**
  * Created by sehorva on 1/26/18.
  */
@@ -22,7 +24,7 @@ public class DBAdapter {
     static final String KEY_ROWID = "id"; //_id
     static final String KEY_IME = "ime";
     static final String KEY_MAIL = "mail";
-    static final String KEY_PLACA = "mail";
+    static final String KEY_PLACA = "placa";
 
     //za tablicu RADNOMJESTO(ID_MJESTA, NIVO_ODGOVORNOSTI, MINIMALNA_PLACA
     static final String DATABASE_TABLE_RADNOMJESTO = "radnomjesto";
@@ -35,7 +37,7 @@ public class DBAdapter {
 
     static final String DATABASE_CREATE_ZAPOSLENIK =
             "create table zaposlenik (id integer primary key autoincrement, "
-                    + "ime text not null, placa integer not null);";
+                    + "ime text not null, mail text not null, placa integer not null);";
 
     static final String DATABASE_CREATE_RADNOMJESTO =
             "create table radnomjesto (id_mjesta integer primary key autoincrement, "
@@ -60,19 +62,10 @@ public class DBAdapter {
         }
 
         @Override
-        public void onCreate(SQLiteDatabase db)
-        {
-            try {
-                db.execSQL(DATABASE_CREATE_ZAPOSLENIK);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        public void onCreate(SQLiteDatabase db) {
 
-            try {
-                db.execSQL(DATABASE_CREATE_RADNOMJESTO);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            db.execSQL(DATABASE_CREATE_ZAPOSLENIK);
+            db.execSQL(DATABASE_CREATE_RADNOMJESTO);
         }
 
         @Override
@@ -102,9 +95,11 @@ public class DBAdapter {
     //---ubacuje zaposlenika u tablicu zaposlenik u bazi podataka---
     public long insertIntoZaposlenik(String ime, String mail, Integer placa)
     {
+        Log.d("insert", ime+mail+placa);
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_IME, ime);
         initialValues.put(KEY_MAIL, mail);
+        initialValues.put(KEY_PLACA, placa);
         return db.insert(DATABASE_TABLE_ZAPOSLENIK, null, initialValues);
     }
 

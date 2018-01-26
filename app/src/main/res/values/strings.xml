@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Kolokvij</string>
+    <string name="pokreni_servis">pokreni servis</string>
+    <string name="zaustavi_servis">zaustavi servis</string>
 </resources>
